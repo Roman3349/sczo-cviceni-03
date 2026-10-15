@@ -19,6 +19,9 @@ h=np.zeros([n,n])
 middle = int(n/2)
 h[middle,middle] = 1
 
+filtered_valid = convolve2d(img, h, mode="valid")
+filtered_same = convolve2d(img, h, mode="same")
+filtered_full = convolve2d(img, h, mode="full")
 
 plt.figure()
 plt.subplot(1,4,1)
@@ -29,21 +32,21 @@ plt.ylabel('Prostorova souradnice [m]')
 plt.axis('off')
 
 plt.subplot(1,4,2)
-plt.imshow(..., cmap = 'gray')
+plt.imshow(filtered_valid, cmap = 'gray')
 plt.title('Vyfiltrovane v rezimu valid')
 plt.xlabel('Prostorova souradnice [m]')
 plt.ylabel('Prostorova souradnice [m]')
 plt.axis('off')
 
 plt.subplot(1,4,3)
-plt.imshow(...,  cmap = 'gray')
+plt.imshow(filtered_same,  cmap = 'gray')
 plt.title('Vyfiltrovane v rezimu same')
 plt.xlabel('Prostorova souradnice [m]')
 plt.ylabel('Prostorova souradnice [m]')
 plt.axis('off')
 
 plt.subplot(1,4,4)
-plt.imshow(...,  cmap = 'gray')
+plt.imshow(filtered_full,  cmap = 'gray')
 plt.title('Vyfiltrovane v rezimu full')
 plt.xlabel('Prostorova souradnice [m]')
 plt.ylabel('Prostorova souradnice [m]')
@@ -59,6 +62,12 @@ plt.show()
 plt.close('all')
 img = imread('data/sports.jpg')
 
+n=51
+h=np.zeros([n,n])
+middle = int(n/2)
+h[middle,middle] = 1
+
+filtered_freq = abs(ifft2(fft2(img) * fft2(h, s=(img.shape[0], img.shape[1]))))
 
 plt.figure()
 plt.subplot(1,3,1)
@@ -69,14 +78,14 @@ plt.ylabel('Prostorova souradnice [m]')
 plt.axis('off')
 
 plt.subplot(1,3,2)
-plt.imshow(..., cmap = 'gray')
+plt.imshow(filtered_freq, cmap = 'gray')
 plt.title('Filtrovany pres frekvencni oblast')
 plt.xlabel('Prostorova souradnice [m]')
 plt.ylabel('Prostorova souradnice [m]')
 plt.axis('off')
 
 plt.subplot(1,3,3)
-plt.imshow(..., cmap = 'gray')
+plt.imshow(filtered_same, cmap = 'gray')
 plt.title('Filtrovany konvoluci')
 plt.xlabel('Prostorova souradnice [m]')
 plt.ylabel('Prostorova souradnice [m]')
